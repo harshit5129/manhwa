@@ -1,0 +1,60 @@
+# .gitignore for Manhwa Auto-Panel Generator
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Environment variables (IMPORTANT - contains API keys!)
+.env
+.env.local
+.env.*.local
+
+# Models (too large for git)
+models/*
+!models/.gitkeep
+
+# Output files
+output/*
+!output/.gitkeep
+*.png
+*.jpg
+*.jpeg
+*.zip
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Test files
+test_*.py
+test_*.png
+
+# Personal data
+my_*.txt
+my_*.json
+private/
+
+# Jupyter (allow Colab notebook)
+.ipynb_checkpoints
+# *.ipynb  # Commented out to allow colab_manhwa_generator.ipynb

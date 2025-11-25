@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manhwa Generator Pro - Free AI Comic Creator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+</head>
+
+<body>
+    <!-- Background Effects -->
+    <div class="bg-gradient"></div>
+    <div class="bg-pattern"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">🎨 Manhwa Generator Pro</h1>
+                <div class="header-badges">
+                    <span class="badge badge-success">✓ 100% Free</span>
+                    <span class="badge badge-info">✓ No API Keys</span>
+                    <span class="badge badge-primary">✓ Ollama Powered</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container main-container">
+
+        <!-- Quick Start Guide -->
+        <div class="quick-start" id="quick-start">
+            <div class="quick-start-header">
+                <h3>🚀 Get Started in 3 Steps</h3>
+                <button class="btn-close"
+                    onclick="document.getElementById('quick-start').style.display='none'">×</button>
+            </div>
+            <div class="quick-start-steps">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Create a Project</h4>
+                        <p>Organize your manhwa in separate projects</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Add Chapter Text</h4>
+                        <p>Paste your story and let AI analyze it</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Generate Panels</h4>
+                        <p>Review, edit, and create beautiful manhwa panels</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs-container">
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="generate">
+                    🎬 Generate
+                </button>
+                <button class="tab-btn" data-tab="projects">
+                    📁 Projects
+                </button>
+                <button class="tab-btn" data-tab="characters">
+                    👤 Characters
+                </button>
+                <button class="tab-btn" data-tab="editor">
+                    ✏️ Panel Editor
+                </button>
+            </div>
+        </div>
+
+        <!-- GENERATE TAB (Default - Most Important) -->
+        <div class="tab-content active" id="tab-generate">
+            <div class="section-header">
+                <h2>🎬 Generate Manhwa Panels</h2>
+                <button class="btn btn-secondary" id="btn-show-help">
+                    ❓ Help
+                </button>
+            </div>
+
+            <div class="generate-container">
+                <!-- Chapter Text -->
+                <div class="form-group">
+                    <label class="label">
+                        📝 Chapter Text *
+                        <span class="label-hint">(Paste your story here)</span>
+                    </label>
+                    <textarea id="chapter-text" class="textarea" rows="10" placeholder="Example:
+
+Elena stood at the edge of the cliff, her silver hair dancing in the wind. The ancient city sprawled below, its towers reaching toward the darkening sky.
+
+&quot;Are you ready?&quot; Marcus asked, placing a gentle hand on her shoulder.
+
+She turned to face him, determination burning in her bright blue eyes. &quot;I've been ready for this my entire life.&quot;
+
+Suddenly, a massive shadow swept across the valley. The dragon had arrived..."></textarea>
+                    <div class="char-count">
+                        <span id="char-count">0</span> characters
+                    </div>
+                </div>
+
+                <!-- Generation Settings -->
+                <div class="settings-panel">
+                    <h3>⚙️ Settings</h3>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label class="label">Art Style</label>
+                            <select id="style-select" class="input">
+                                <option value="manhwa">🇰🇷 Manhwa (Korean)</option>
+                                <option value="manga">🇯🇵 Manga (Japanese)</option>
+                                <option value="anime">✨ Anime</option>
+                                <option value="realistic">📷 Realistic</option>
+                                <option value="watercolor">🎨 Watercolor</option>
+                                <option value="dark">🌑 Dark Fantasy</option>
+                                <option value="chibi">😊 Chibi/Cute</option>
+                                <option value="comic">🇺🇸 Western Comic</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="label">Model</label>
+                            <select id="model-select" class="input">
+                                <option value="sd15">SD 1.5 (Fastest)</option>
+                                <option value="sdxl">SDXL (Best Quality)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="label">Quality</label>
+                            <select id="quality-select" class="input">
+                                <option value="draft">Draft (Fast)</option>
+                                <option value="normal" selected>Normal</option>
+                                <option value="high">High Quality (Slow)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="label">Max Panels</label>
+                            <input type="number" id="max-panels" class="input" value="10" min="1" max="50">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Enhancement Toggle -->
+                <div class="ai-toggle">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="use-ollama" checked>
+                        <span class="checkmark"></span>
+                        <div class="checkbox-label-text">
+                            <strong>🧠 Use Ollama AI Enhancement</strong>
+                            <small>Smarter scene detection & prompt optimization (requires Ollama installed)</small>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Generate Button -->
+                <button class="btn btn-primary btn-large btn-generate" id="btn-generate">
+                    <span class="btn-icon">✨</span>
+                    <span>Generate Manhwa Panels</span>
+                </button>
+
+                <!-- Progress Section -->
+                <div id="progress-section" class="progress-section" style="display: none;">
+                    <div class="progress-header">
+                        <h3>🎨 Generating Your Manhwa...</h3>
+                        <span id="progress-text" class="progress-percent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progress-fill" class="progress-fill"></div>
+                    </div>
+                    <p id="progress-status" class="progress-status">Initializing...</p>
+                </div>
+
+                <!-- Results Section -->
+                <div id="results-section" class="results-section" style="display: none;">
+                    <div class="section-header">
+                        <h3>✅ Generation Complete!</h3>
+                        <div class="results-actions">
+                            <button class="btn btn-primary" id="btn-download">
+                                📥 Download All
+                            </button>
+                            <button class="btn btn-secondary" id="btn-new-generation">
+                                🔄 New Generation
+                            </button>
+                        </div>
+                    </div>
+                    <div id="results-grid" class="results-grid">
+                        <!-- Results will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROJECTS TAB -->
+        <div class="tab-content" id="tab-projects">
+            <div class="section-header">
+                <h2>📁 My Projects</h2>
+                <button class="btn btn-primary" id="btn-new-project">
+                    ➕ New Project
+                </button>
+            </div>
+
+            <div class="projects-grid" id="projects-list">
+                <div class="empty-state">
+                    <div class="empty-icon">📂</div>
+                    <p>No projects yet. Create your first manhwa project!</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('btn-new-project').click()">
+                        Create Project
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHARACTERS TAB -->
+        <div class="tab-content" id="tab-characters">
+            <div class="section-header">
+                <h2>👤 Character Library</h2>
+                <button class="btn btn-primary" id="btn-new-character">
+                    ➕ Add Character
+                </button>
+            </div>
+
+            <div class="characters-grid" id="characters-list">
+                <div class="empty-state">
+                    <div class="empty-icon">👥</div>
+                    <p>Build your character library for consistent designs</p>
+                    <button class="btn btn-primary" onclick="document.getElementById('btn-new-character').click()">
+                        Add First Character
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL EDITOR TAB -->
+        <div class="tab-content" id="tab-editor">
+            <div class="section-header">
+                <h2>✏️ Panel Editor</h2>
+                <div class="editor-actions">
+                    <select id="editor-project-select" class="input">
+                        <option value="">Select a project...</option>
+                    </select>
+                    <button class="btn btn-secondary" id="btn-analyze-chapter">
+                        🔍 Analyze Chapter
+                    </button>
+                </div>
+            </div>
+
+            <div id="panels-preview" class="panels-preview">
+                <div class="empty-state">
+                    <div class="empty-icon">📝</div>
+                    <p>Preview and edit individual panel prompts before generating</p>
+                    <ol class="instruction-list">
+                        <li>Select a project above</li>
+                        <li>Click "Analyze Chapter" to preview panels</li>
+                        <li>Edit prompts, camera angles, and lighting</li>
+                        <li>Then generate with your custom settings!</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+
+    <!-- New Project Modal -->
+    <div id="modal-new-project" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Project</h3>
+                <button class="modal-close" onclick="closeModal('modal-new-project')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="label">Project Name *</label>
+                    <input type="text" id="new-project-name" class="input" placeholder="My Epic Manhwa" autofocus>
+                </div>
+                <p class="help-text">💡 Tip: Use descriptive names like "Chapter 1: The Awakening"</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('modal-new-project')">Cancel</button>
+                <button class="btn btn-primary" id="btn-create-project">Create Project</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Character Modal -->
+    <div id="modal-new-character" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>Add Character to Library</h3>
+                <button class="modal-close" onclick="closeModal('modal-new-character')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="label">Name *</label>
+                        <input type="text" id="char-name" class="input" placeholder="Elena" autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label class="label">Gender</label>
+                        <select id="char-gender" class="input">
+                            <option value="">Unknown</option>
+                            <option value="female">Female</option>
+                            <option value="male">Male</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label">Age</label>
+                        <input type="text" id="char-age" class="input" placeholder="25">
+                    </div>
+                    <div class="form-group">
+                        <label class="label">Hair Color</label>
+                        <input type="text" id="char-hair" class="input" placeholder="silver">
+                    </div>
+                    <div class="form-group">
+                        <label class="label">Eye Color</label>
+                        <input type="text" id="char-eyes" class="input" placeholder="blue">
+                    </div>
+                    <div class="form-group">
+                        <label class="label">Default Outfit</label>
+                        <input type="text" id="char-outfit" class="input" placeholder="combat armor">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="label">Reference Image (Optional)</label>
+                    <input type="file" id="char-reference" class="input" accept="image/*">
+                    <p class="help-text">💡 Upload a reference image for consistent character appearance</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('modal-new-character')">Cancel</button>
+                <button class="btn btn-primary" id="btn-create-character">Add Character</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Panel Modal -->
+    <div id="modal-edit-panel" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h3>Edit Panel <span id="panel-number"></span></h3>
+                <button class="modal-close" onclick="closeModal('modal-edit-panel')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="label">Scene Text</label>
+                    <textarea id="edit-scene-text" class="textarea" rows="3" readonly></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="label">AI Generated Prompt</label>
+                    <textarea id="edit-original-prompt" class="textarea" rows="2" readonly></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="label">Custom Prompt (Your Changes)</label>
+                    <textarea id="edit-custom-prompt" class="textarea" rows="3"
+                        placeholder="Leave empty to use AI generated prompt, or write your own..."></textarea>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="label">📷 Camera Angle</label>
+                        <select id="edit-camera" class="input">
+                            <option value="close-up">Close-up</option>
+                            <option value="medium shot" selected>Medium Shot</option>
+                            <option value="wide shot">Wide Shot</option>
+                            <option value="bird's eye">Bird's Eye View</option>
+                            <option value="low angle">Low Angle</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label">💡 Lighting</label>
+                        <select id="edit-lighting" class="input">
+                            <option value="natural" selected>Natural</option>
+                            <option value="dramatic">Dramatic</option>
+                            <option value="soft">Soft</option>
+                            <option value="backlit">Backlit</option>
+                            <option value="sunset">Sunset/Golden Hour</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label">😊 Mood</label>
+                        <select id="edit-mood" class="input">
+                            <option value="neutral">Neutral</option>
+                            <option value="tense">Tense</option>
+                            <option value="peaceful">Peaceful</option>
+                            <option value="exciting">Exciting</option>
+                            <option value="sad">Sad</option>
+                            <option value="happy">Happy</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('modal-edit-panel')">Cancel</button>
+                <button class="btn btn-primary" id="btn-save-panel">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="modal-help" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>❓ Help & Tips</h3>
+                <button class="modal-close" onclick="closeModal('modal-help')">×</button>
+            </div>
+            <div class="modal-body">
+                <h4>🚀 Quick Start</h4>
+                <ol>
+                    <li>Paste your chapter text in the Generate tab</li>
+                    <li>Choose your art style and settings</li>
+                    <li>Click "Generate Manhwa Panels"</li>
+                    <li>Download your generated panels!</li>
+                </ol>
+
+                <h4>✨ Pro Tips</h4>
+                <ul>
+                    <li><strong>Projects:</strong> Organize different manhwa series</li>
+                    <li><strong>Characters:</strong> Save character details for consistency</li>
+                    <li><strong>Panel Editor:</strong> Fine-tune prompts before generating</li>
+                    <li><strong>Ollama:</strong> Install for smarter AI (free & local)</li>
+                </ul>
+
+                <h4>📖 Learn More</h4>
+                <p>Check out <code>COMPLETE_GUIDE.md</code> for full documentation</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeModal('modal-help')">Got it!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+
+</html>
